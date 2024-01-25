@@ -9,10 +9,18 @@ export function Mainquery(IdUser) {
       login
       email
     }
-    transaction_aggregate(where :{_and :[{   type : {_eq : "xp"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"}} ] })
+    xp : transaction_aggregate(where :{_and :[{   type : {_eq : "xp"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"}} ] })
     {
       aggregate {
         sum {
+          amount
+        }
+      }
+    }
+  	level :  transaction_aggregate(where :{_and :[{   type : {_eq : "level"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"}} ] })
+    {
+      aggregate {
+        max {
           amount
         }
       }
@@ -26,6 +34,18 @@ export function Mainquery(IdUser) {
         }
       }
       
+    }
+    transaction(where : { type : {_iregex : "skill"}} ,distinct_on : type ) {
+      transaction_type {
+        type
+        transactions_aggregate {
+          aggregate {
+            max {
+              amount
+            }
+          }
+        }
+      }
     }
   }
   `

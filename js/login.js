@@ -3,6 +3,14 @@ import { LoadMainPage } from "./main.js"
 
 
 export function LoadSignInPage() {
+  document.head.innerHTML =  `
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/style1.css">
+  <script src="js/animation.js" defer></script>
+  <title>GraphQL</title>`
+
+
     document.body.innerHTML = `
     <img src="assets/logo-01.png" id="logo-img">
     <section id="main">
@@ -59,5 +67,8 @@ async function Check(email, pass) {
     let error = await res.json()
     let ErrorP = document.getElementById('err')
     ErrorP.innerHTML = error.error
+    setTimeout(()=>{
+      ErrorP.innerHTML = ""
+    },3000)
    }
 }

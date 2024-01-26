@@ -9,14 +9,15 @@ export function Mainquery(IdUser) {
       login
       email
     }
-    xp : transaction_aggregate(where :{_and :[{   type : {_eq : "xp"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"}} ] })
-    {
-      aggregate {
-        sum {
+    xp : transaction_aggregate(
+      where: {type: {_eq: "xp"}, event: {object: {type: {_eq: "module"}}}}
+    ) {
+      aggregate{
+        sum{
           amount
         }
       }
-    }
+    }  
   	level :  transaction_aggregate(where :{_and :[{   type : {_eq : "level"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"}} ] })
     {
       aggregate {

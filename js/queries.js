@@ -25,7 +25,7 @@ export function Mainquery(IdUser) {
         }
       }
     }
-    audit (where :{ _and :[ { auditorId : {_eq : ${IdUser}}} , {grade : {_is_null : false}} ]}, limit : 5) {
+    audit (where :{ _and :[ { auditorId : {_eq : ${IdUser}}} , {grade : {_is_null : false}} ]}, limit : 12) {
       grade
       group {
         captainLogin
@@ -47,6 +47,22 @@ export function Mainquery(IdUser) {
         }
       }
     }
+    projectXp : transaction(where :{_and :[{   type : {_eq : "xp"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"} }  ] } order_by : {createdAt : asc} )
+    {
+      amount
+      createdAt
+    }
+    Attempts : transaction(where :{_and :[{   type : {_eq : "xp"}} , {path : {_iregex : "/.*piscine.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"}} ] } , limit : 15 )
+     {
+       object {
+        name
+         progresses_aggregate {
+        	aggregate {
+            count(columns : grade) 
+          }
+         }
+       }
+     }
   }
   `
 
@@ -83,16 +99,14 @@ let skills = `
 `
 let audit = `
 {
-	audit (where :{ _and :[ { auditorId : {_eq : 8655}} , {grade : {_is_null : false}} ]}) {
-    grade
-    group {
-      captainLogin
-    	object {
-        name
-      }
-    }
-    
+  projectXp : transaction(where :{_and :[{   type : {_eq : "xp"}} , {path : {_iregex : "/.*dakar/div-01.*/"}} ,{path : {_nregex : "/.*piscine-js.+/"} }  ] } order_by : {createdAt : asc} )
+     {
+       object {
+         name
+       }
+       amount
+       createdAt
+     }
+  
   }
-}
-
 `

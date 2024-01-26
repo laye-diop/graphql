@@ -1,7 +1,7 @@
 import { LoadSignInPage } from "./login.js";
 import {  Mainquery } from "./queries.js";
 import { ActivateListenner } from "./logout.js";
-import { toggleMenu } from "./logout.js";
+import { AddGraph } from "./graph.js";
 
 LoadMainPage()
 
@@ -31,6 +31,7 @@ async function getData(token) {
   } else {
     document.head.innerHTML = Head()
      document.body.innerHTML = GenerateHomePage(data) 
+     AddGraph(data.data.projectXp , data.data.Attempts)
      ActivateListenner()
   }
 
@@ -71,7 +72,7 @@ function Head() {
 function GenerateHomePage(data) {
   let skills = data.data.transaction
   let GetSkills = GetSkill.bind(skills)
-  return `
+  return  `
   <nav id="desktop-nav">
     <span><img src="/assets/logo-01.png" id="logo-img"></span>
       <div class="logo"> ${data.data.user[0].firstName +data.data.user[0].lastName } </div>
@@ -80,7 +81,7 @@ function GenerateHomePage(data) {
           <li><a href="#about">Basic info</a></li>
           <li><a href="#experience">Skills</a></li>
           <li><a href="#projects">Audits</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Graphs</a></li>
         </ul>
       </div>
       <span><img src="/assets/logout.png" id="" class="logout-img logoutImg"></span>
@@ -91,7 +92,7 @@ function GenerateHomePage(data) {
     </nav>
     <section id="profile">
       <div class="section__pic-container zone01">
-        <img src="./assets/zone01-logo.png" alt="John Doe profile picture" />
+        <img src="./assets/zone01-logo.png" class="zone01image" alt="John Doe profile picture" />
       </div>
       <div class="section__text">
         <p class="section__text__p1">Hello</p>
@@ -363,28 +364,25 @@ function GenerateHomePage(data) {
         onclick="location.href='./#projects'"
       />
     </section>
-   
+    <section id="projects">
+      <p class="section__text__p1"></p>
+      <h1 class="title">Audits</h1>
+      <div class="audits">
+        ${getAudits(data.data.audit)}
+      </div>
+      <img
+        src="./assets/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#contact'"
+      />
+    </section>
     <section id="contact">
       <p class="section__text__p1">Get in Touch</p>
-      <h1 class="title">Contact Me</h1>
-      <div class="contact-info-upper-container">
-        <div class="contact-info-container">
-          <img
-            src="./assets/email.png"
-            alt="Email icon"
-            class="icon contact-icon email-icon"
-          />
-          <p><a href="mailto:examplemail@gmail.com">Example@gmail.com</a></p>
-        </div>
-        <div class="contact-info-container">
-          <img
-            src="./assets/linkedin.png"
-            alt="LinkedIn icon"
-            class="icon contact-icon"
-          />
-          <p><a href="https://www.linkedin.com">LinkedIn</a></p>
-        </div>
-      </div>
+      <h1 class="title">Graphs</h1>
+      <div id="chart_div"></div>
+      <div id="chart_div1"></div>
+
     </section>
     <footer>
       <nav>
@@ -392,8 +390,8 @@ function GenerateHomePage(data) {
           <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#projects">Audits</a></li>
+            <li><a href="#contact">Graphs</a></li>
           </ul>
         </div>
       </nav>
@@ -401,25 +399,7 @@ function GenerateHomePage(data) {
     </footer>
   `
 }
-  // <img src="assets/logo-01.png" id="logo-img">
-  // <div class="userName">
-  //     <span>${data.data.user[0].firstName + data.data.user[0].lastName }</span>
-  //     <img id="logoutImg" src="assets/logout.svg">
-  // </div>
-  // <div class="persinfo">
-  //   <img src="assets/student.jpeg">
-  //   <div class="inf">
-  //     <p>Hello!</p>
-  //     <p class="np">${data.data.user[0].firstName }</p>
-  //     <p class="np">${data.data.user[0].lastName }</p>
-  //   </div>
-  //   </div>
-  //   <div>
-  //     <p>${data.data.user[0].email }</p>
-  //     <p>${data.data.user[0].login }</p>
-  //     <p>${data.data.transaction_aggregate.aggregate.sum.amount /1000}xp</p>
-  // </div>
-  // <div>${DisplayAudits(data.data.audit)}</div>
+
 
 
 function GetSkill(data) {
@@ -431,4 +411,17 @@ function GetSkill(data) {
   }
   return 0
 
+}
+function getAudits(audits) {
+  let res =  ''
+  audits.forEach(aud => {
+    res += `
+    <div class="audit">
+      <span>${aud.group.captainLogin}</span>
+      <span>${aud.group.object.name}</span>
+      <span class= "${aud.grade >= 1 ? "PASS" : "FAIL"}">${aud.grade >= 1 ? "PASS" : "FAIL"}</span>
+    </div>
+    `
+  })
+  return res
 }

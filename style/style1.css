@@ -170,3 +170,9 @@ body{
   margin: 10px;
   list-style: none;
 }
+.PASS {
+  color:green
+}
+.FAIL {
+  color: red;
+}

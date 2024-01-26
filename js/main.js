@@ -75,7 +75,7 @@ function GenerateHomePage(data) {
   return  `
   <nav id="desktop-nav">
     <span><img src="/assets/logo-01.png" id="logo-img"></span>
-      <div class="logo"> ${data.data.user[0].firstName +data.data.user[0].lastName } </div>
+      <div class="logo"> ${data.data.user[0].firstName + " " + data.data.user[0].lastName } </div>
       <div>
         <ul class="nav-links">
           <li><a href="#about">Basic info</a></li>

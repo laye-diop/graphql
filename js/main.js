@@ -36,19 +36,7 @@ async function getData(token) {
   }
 
 }
-function DisplayAudits(audits) {
-  let res  = ``
-  audits.forEach(audit => {
-    res += `
-      <div>
-        <span>${audit.group.object.name}</span>
-        <span>${audit.group.captainLogin}</span>
-        <span>${audit.grade >= 1 ? "Pass" : "Fail"}</span>
-      </div>
-    `
-  });
-  return res
-}
+
 function DecodeToken(jwt) {
 
   if(jwt == null || jwt.split('.').length != 3) {
@@ -115,7 +103,7 @@ function GenerateHomePage(data) {
             class="icon"
             onclick="location.href='https://linkedin.com/'"
           />
-          <a href="https://learn.zone01dakar.sn/git/papaabddiop">
+          <a href="https://learn.zone01dakar.sn/git/${data.data.user[0].login}">
             <img
               src="./assets/github.png"
               alt="My Github profile"
@@ -155,7 +143,7 @@ function GenerateHomePage(data) {
                 class="icon"
               />
               <h3>Xp aggregate</h3>
-              <p>${data.data.xp.aggregate.sum.amount /1000}xp</p>
+              <p>${data.data.xp.aggregate.sum.amount /1000}kB</p>
             </div>
           </div>
           <div class="text-container">
@@ -163,7 +151,7 @@ function GenerateHomePage(data) {
              <span id="em">Email :</span>  ${data.data.user[0].email }
             </p>
             <p>
-              Here are somme of your personnal informations about progression at Zone 01 dakar
+              Here are some of your personnal informations about your progression at Zone 01 dakar
             </p>
           </div>
         </div>

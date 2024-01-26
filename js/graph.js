@@ -13,9 +13,9 @@ function DrawGraph() {
 function drawBarColors(data) {
    var data = google.visualization.arrayToDataTable(sumAmountsByDate(data));
    var options = {
-      title: 'Company Performance',
+      title: 'kB ',
       chartArea: {width: '60%'},
-      hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+      hAxis: {title: 'Mounths',  titleTextStyle: {color: '#333'}},
       vAxis: {minValue: 0}
     };
 
@@ -51,7 +51,7 @@ function drawBarColors(data) {
     return res
   }
  function sumAmountsByDate(inputArray) {
-  let res = [['Projets', 'xp per project', ]]
+  let res = [['xp', 'kB earned per Mounth', ]]
   const result = {};
   inputArray.forEach((item) => {
     const { amount, createdAt } = item;

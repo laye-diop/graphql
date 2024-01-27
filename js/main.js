@@ -13,7 +13,6 @@ export function LoadMainPage() {
 
 async function getData(token) {
   let IdUser = DecodeToken(token)
-  console.log("here is the token " , token);
   let options = {
     method: 'POST',
     headers: {
@@ -23,9 +22,7 @@ async function getData(token) {
     body: JSON.stringify({ query: Mainquery(IdUser) })
   }
   let res = await fetch("https://learn.zone01dakar.sn/api/graphql-engine/v1/graphql", options)
-  console.log("here is the res ", res);
   let data = await res.json()
-  console.log("here is the data  " , data);
   if (!data.hasOwnProperty("data")) {
     LoadSignInPage()
   } else {
